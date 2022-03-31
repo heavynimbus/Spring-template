@@ -2,6 +2,16 @@ version: '3.7'
 
 services:
 
+  backend:
+    container_name: api-backend
+    build:
+      context: backend
+    image: api-backend:dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - posgres-db
+
   posgres-db:
     container_name: postgres-db
     image: postgres
@@ -17,3 +27,8 @@ services:
 
 volumes:
   postgres-db-vol:
+
+networks:
+  default:
+    external:
+      name: app-network
