@@ -10,14 +10,22 @@
                 <constraints primaryKey="true" primaryKeyName="ACCOUNT_ID_PK"/>
             </column>
             <column name="username" type="varchar(255)">
-                <constraints nullable="false" notNullConstraintName="ACCOUNT_USERNAME_NOT_NULL"/>
+                <constraints nullable="false" notNullConstraintName="ACCOUNT_USERNAME_NOT_NULL" unique="true"
+                             uniqueConstraintName="ACCOUNT_USERNAME_UNIQUE"/>
             </column>
             <column name="email" type="varchar(255)">
-                <constraints nullable="false" notNullConstraintName="ACCOUNT_EMAIL_NOT_NULL"/>
+                <constraints nullable="false" notNullConstraintName="ACCOUNT_EMAIL_NOT_NULL" unique="true"
+                             uniqueConstraintName="ACCOUNT_EMAIL_UNIQUE"/>
             </column>
             <column name="password" type="varchar(255)">
                 <constraints nullable="false" notNullConstraintName="ACCOUNT_PASSWORD_NOT_NULL"/>
             </column>
+            <column name="enabled" type="boolean" defaultValue="true">
+                <constraints nullable="false" notNullConstraintName="ACCOUNT_ENABLED_NOT_NULL"/>
+            </column>
+            <!--column name="role" type="varchar(255)" defaultValue="USER">
+                <constraints nullable="false" notNullConstraintName="ACCOUNT_ROLE_NOT_NULL"/>
+            </column-->
         </createTable>
     </changeSet>
 </databaseChangeLog>
