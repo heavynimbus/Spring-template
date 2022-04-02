@@ -1,6 +1,7 @@
 # Template Spring with security
 
 This is a template for a CRUD api using:
+
 * Java 17
 * Spring Boot
 * PostgreSQL
@@ -11,6 +12,7 @@ This is a template for a CRUD api using:
 ## Docker
 
 If you want to run it with docker:
+
 ```bash
 git clone https://github.com/heavynimbus/Spring-template.git
 cd Spring-template
@@ -29,18 +31,26 @@ Services will open the following ports:
 
 A swagger documentation is available at http://localhost:10080/swagger-ui.html
 
-### Security
-
-The api is secured by JWT token. You have to call `/login` with good credentials to retrieve a token. 
-All tokens are signed and checked.
-
 ### Database
 
-The database is initialized by Liquibase to be able to do migrations in production, and Spring Data JPA at
-the runtime.
+The database is initialized by Liquibase to be able to do migrations in production, and Spring Data JPA at the runtime.
 
 There are two existing entities:
+
 * `account` table that contains all registered users
 * `role` table that contains the different roles
 
 These tables are joined by a many-to-many relation.
+
+### Security
+
+The api is secured by JWT token. You have to call `/login` with good credentials to retrieve a token. All tokens are
+signed and checked.
+
+There are 3 roles:
+
+* `ADMIN` allows the user to access to `/admin/**` resources
+* `STAFF` allows the user to access to `/staff/**` resources
+* `USER` allows the user to access to `/user/**` resources
+
+An account can have multiple roles.
