@@ -10,9 +10,9 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - posgres-db
+      - postgres-db
 
-  posgres-db:
+  postgres-db:
     container_name: postgres-db
     image: postgres
     ports:
