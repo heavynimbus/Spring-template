@@ -66,3 +66,5 @@ An account can have multiple roles.
 
 ![image](https://user-images.githubusercontent.com/45078901/161392902-02241f7e-98ff-4894-9733-96e61421a84e.png)
 
+[See Javainuse post about spring-boot jwt](https://www.javainuse.com/spring/boot-jwt)
+
