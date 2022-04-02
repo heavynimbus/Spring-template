@@ -12,6 +12,7 @@ import heavynimbus.backend.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,6 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       jwtToken = requestTokenHeader.substring(7);
       try {
         username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+        log.info("username: {}", username);
       } catch (IllegalArgumentException e) {
         System.out.println("Unable to get JWT Token");
       } catch (ExpiredJwtException e) {
@@ -53,19 +55,25 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     } else {
       logger.warn("JWT Token does not begin with Bearer String");
     }
-
+    System.out.println("username = " + username);
+    System.out.println(
+        "SecurityContextHolder.getContext().getAuthentication() = "
+            + SecurityContextHolder.getContext().getAuthentication());
+    System.out.println(
+        "condition = "
+            + (username != null && SecurityContextHolder.getContext().getAuthentication() == null));
     // Once we get the token validate it.
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+      log.info("if");
       UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-
+      log.info("user details: {}", userDetails);
       // if token is valid configure Spring Security to manually set
       // authentication
       if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-
+        log.info("Token valid");
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
             new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
+                userDetails, userDetails.getPassword(), userDetails.getAuthorities());
         usernamePasswordAuthenticationToken.setDetails(
             new WebAuthenticationDetailsSource().buildDetails(request));
         // After setting the Authentication in the context, we specify
