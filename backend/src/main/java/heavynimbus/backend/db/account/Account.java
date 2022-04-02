@@ -1,10 +1,13 @@
 package heavynimbus.backend.db.account;
 
+import heavynimbus.backend.db.accountRole.AccountRole;
+import heavynimbus.backend.db.accountRole.AccountRoleEnum;
 import lombok.Data;
-import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -28,5 +31,10 @@ public class Account {
   @Column(name = "enabled", nullable = false)
   private Boolean enabled;
 
-  // todo: add roles
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "account_roles",
+      joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+  private List<AccountRole> roles;
 }

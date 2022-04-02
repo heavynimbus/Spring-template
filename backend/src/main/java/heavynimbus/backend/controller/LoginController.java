@@ -7,8 +7,6 @@ import heavynimbus.backend.service.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import heavynimbus.backend.service.JwtUserDetailService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 

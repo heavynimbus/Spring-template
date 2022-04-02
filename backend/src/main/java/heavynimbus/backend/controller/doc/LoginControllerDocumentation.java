@@ -2,6 +2,7 @@ package heavynimbus.backend.controller.doc;
 
 import heavynimbus.backend.dto.login.LoginRequest;
 import heavynimbus.backend.dto.login.LoginResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +12,13 @@ import org.springframework.http.MediaType;
 
 @Tag(name = "Authentication", description = "How to be authenticated")
 public interface LoginControllerDocumentation {
-   LoginResponse authenticate(
+  @Operation(summary = "Authenticate", description = """
+          This request authenticates you by returning a jwt token
+          
+          You will need to use it on all secure endpoints as a bearer token in the headers like:
+          `Authorization: Bearer <token>`
+          """)
+  LoginResponse authenticate(
       @RequestBody(
               required = true,
               description = "Login request containing username & password",
@@ -22,12 +29,6 @@ public interface LoginControllerDocumentation {
                       examples =
                           @ExampleObject(
                               summary = "login request example",
-                              description = "With valid credentials",
-                              value = """
-                                      {
-                                        "username": "HeavyNimbus",
-                                        "password": "Maille_Sikret_Pazouaurd"
-                                      }
-                                      """)))
+                              description = "With valid credentials")))
           LoginRequest loginRequest);
 }

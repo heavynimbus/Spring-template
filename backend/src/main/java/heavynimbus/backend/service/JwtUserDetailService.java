@@ -2,6 +2,8 @@ package heavynimbus.backend.service;
 
 import heavynimbus.backend.db.account.Account;
 import heavynimbus.backend.db.account.AccountRepository;
+import heavynimbus.backend.db.accountRole.AccountRole;
+import heavynimbus.backend.db.accountRole.AccountRoleEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -28,7 +31,14 @@ public class JwtUserDetailService implements UserDetailsService {
             .orElseThrow(
                 () -> new UsernameNotFoundException("User not find with username " + username));
     log.info("account: {}", account);
-    return new User(
-        account.getUsername(), account.getPassword(), List.of(new SimpleGrantedAuthority("USER")));
+    return new User(account.getUsername(), account.getPassword(), getAuthorities(account));
+  }
+
+  private static List<GrantedAuthority> getAuthorities(Account account) {
+    return account.getRoles().stream()
+        .map(AccountRole::getRole)
+        .map(AccountRoleEnum::toString)
+        .map(SimpleGrantedAuthority::new)
+        .collect(Collectors.toList());
   }
 }
