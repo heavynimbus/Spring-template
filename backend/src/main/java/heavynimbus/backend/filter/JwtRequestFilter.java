@@ -35,7 +35,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
-    log.info("Start filter");
     final String requestTokenHeader = request.getHeader("Authorization");
 
     String username = null;
@@ -46,31 +45,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       jwtToken = requestTokenHeader.substring(7);
       try {
         username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-        log.info("username: {}", username);
       } catch (IllegalArgumentException e) {
-        System.out.println("Unable to get JWT Token");
+        log.warn("Unable to get JWT Token");
       } catch (ExpiredJwtException e) {
-        System.out.println("JWT Token has expired");
+        log.warn("JWT Token has expired");
       }
     } else {
       logger.warn("JWT Token does not begin with Bearer String");
     }
-    System.out.println("username = " + username);
-    System.out.println(
-        "SecurityContextHolder.getContext().getAuthentication() = "
-            + SecurityContextHolder.getContext().getAuthentication());
-    System.out.println(
-        "condition = "
-            + (username != null && SecurityContextHolder.getContext().getAuthentication() == null));
+
     // Once we get the token validate it.
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      log.info("if");
       UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-      log.info("user details: {}", userDetails);
       // if token is valid configure Spring Security to manually set
       // authentication
       if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-        log.info("Token valid");
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
             new UsernamePasswordAuthenticationToken(
                 userDetails, userDetails.getPassword(), userDetails.getAuthorities());
@@ -82,7 +71,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
       }
     }
-    log.info("Continue chain");
     chain.doFilter(request, response);
   }
 }

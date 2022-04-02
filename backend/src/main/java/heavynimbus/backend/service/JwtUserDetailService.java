@@ -30,7 +30,6 @@ public class JwtUserDetailService implements UserDetailsService {
             .findByUsername(username)
             .orElseThrow(
                 () -> new UsernameNotFoundException("User not find with username " + username));
-    log.info("account: {}", account);
     return new User(account.getUsername(), account.getPassword(), getAuthorities(account));
   }
 
