@@ -14,5 +14,7 @@ spring:
   liquibase:
     change-log: db/changelog-master.xml
 
+
 jwt:
   secret: "This is a secret"
+

@@ -33,7 +33,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/health",
+            "/actuator/**",
             "/error/**")
         .permitAll()
         .antMatchers("/user/**")

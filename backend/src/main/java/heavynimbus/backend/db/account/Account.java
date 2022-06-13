@@ -1,16 +1,21 @@
 package heavynimbus.backend.db.account;
 
 import heavynimbus.backend.db.accountRole.AccountRole;
-import heavynimbus.backend.db.accountRole.AccountRoleEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "account")
 public class Account {
 
