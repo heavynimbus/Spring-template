@@ -54,3 +54,17 @@ There are 3 roles:
 * `USER` allows the user to access to `/user/**` resources
 
 An account can have multiple roles.
+
+
+**Generate token**
+
+![image](https://user-images.githubusercontent.com/45078901/161392870-bd399b6e-52e5-4de7-a2bb-c19b4c71fbbb.png)
+![image](https://user-images.githubusercontent.com/45078901/161392881-95636bbd-494f-4f07-a0c7-2b65666f84a5.png)
+
+
+**Validating token**
+
+![image](https://user-images.githubusercontent.com/45078901/161392902-02241f7e-98ff-4894-9733-96e61421a84e.png)
+
+[See Javainuse post about spring-boot jwt](https://www.javainuse.com/spring/boot-jwt)
+
